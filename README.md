@@ -10,13 +10,15 @@ Photos exist only in the page's memory. Refreshing, resetting or closing loses t
 
 ## Two devices
 
-1. Both people open the production app link, open their cameras, and choose the two-device mode.
-2. The host creates an invite code and sends it privately to the partner.
-3. The partner pastes the invite and selects Accept invite, then sends the generated reply back privately.
-4. The host pastes that reply and selects Connect with reply. Wait for both previews before capturing.
-5. Each shot combines the two videos side by side. Either person can capture and export their own strip. Disconnect closes the connection.
+1. Both people open the production app link and expand **Together, from anywhere**.
+2. The host selects **Create 8-character code**, allows camera access, and sends that code privately to the partner.
+3. The partner enters the code and selects **Join booth**, then allows camera access. No reply code or account is needed.
+4. Wait for **Both cameras are ready**. Each shot combines the two videos side by side. Either person can capture and export their own strip.
+5. **Disconnect** ends the connection and preserves captured photos. An unused code expires after ten minutes; create a new code to reconnect.
 
-Codes contain temporary network/session information. Share only with your intended partner. No room server, database or polling is used. Cloudflare's free STUN endpoint helps browsers find a direct WebRTC route. No TURN relay is configured: some school, work, mobile or restrictive networks cannot connect. Try another network if connection fails. Remote video consumes the participants' internet bandwidth, not Vercel image/Blob storage. Switching apps temporarily pauses video; camera-off and closing the page end the connection.
+The random eight-character code identifies a temporary room: anyone with it can join first, so share it only with your intended partner. Free [PeerServer Cloud](https://peerjs.com/client/faq) exchanges connection details over an encrypted WebSocket. Its operator receives signaling metadata such as network addresses, but photos and video do not pass through it. Cloudflare and Google STUN help the browsers find a direct WebRTC route. No TURN relay is configured: some school, work, mobile or restrictive networks cannot connect. Visible errors and a 45-second connection timeout replace silent failures; try another network if needed. The free public signaling service has no guaranteed availability.
+
+Video is encrypted directly between the browsers and capped at 500 Kbit/s and 15 frames per second per sender where supported. It consumes the participants' internet bandwidth, not Vercel functions or media storage. Switching apps temporarily pauses the camera without deliberately closing the room; return to this page to resume. Mobile operating systems can suspend the browser or end its camera, in which case reconnect. Camera-off and closing the page end the connection.
 
 The production app is public to anyone with its link. The GitHub repository stays private, and Vercel Standard Protection still protects preview and generated deployment URLs. Share the production app link above with your partner; neither person needs Vercel access. Photos remain in each browser tab and are never stored by the app on Vercel.
 
@@ -39,7 +41,7 @@ Keep this repository private, the project on Vercel Hobby, and Vercel Authentica
 | Image optimization / image storage | None |
 | Database / cron / analytics | None |
 | CDN requests and transfer | Small static page loads; captures and exports stay in-browser |
-| Deployment storage | Roughly 80 KB static HTML per deployment, plus platform overhead |
+| Deployment storage | Roughly 90 KB static HTML per deployment, plus platform overhead |
 
 These choices minimize this project's usage; they cannot cap usage from other projects or promise zero CDN consumption. Keep deployments infrequent. Hobby pauses affected service when its included limits are exceeded instead of automatically buying paid usage. Account limits and other projects remain visible in Vercel's Usage dashboard.
 
@@ -50,6 +52,8 @@ These choices minimize this project's usage; they cannot cap usage from other pr
 - vercel.json: runs node build.mjs, publishes only public, and sets privacy/security headers.
 - README.md: this guide.
 
-Open /?test=1 for the built-in regression checks. They exercise cropping, filter pixels, layout bounds, invite validation, sample artwork, decoded character images, all nine character/layout combinations, failed-artwork handling and PNG encoding without requesting a camera, writing a file or opening a peer connection. Add &peer=1 to the self-check URL to exercise two synthetic video peers, manual SDP exchange, the countdown UI, capture of both video feeds and final PNG encoding without camera permission or file downloads. Real camera permissions, physical devices, printing and two different networks require live-device checks. A same-browser test cannot prove connectivity across every network.
+Open /?test=1 for the built-in regression checks. They exercise cropping, filter pixels, layout bounds, eight-character code and session-description validation, sample artwork, decoded character images, all nine character/layout combinations, failed-artwork handling and PNG encoding without requesting a camera, writing a file or opening a peer connection. Add &peer=1 to the self-check URL to exercise two synthetic video peers, session-description exchange, the countdown UI, capture of both video feeds and final PNG encoding without camera permission or file downloads. Real camera permissions, physical devices, printing and two different networks require live-device checks. A same-browser test cannot prove connectivity across every network.
+
+For the real signaling path without camera permissions or downloads, open two tabs at /?testcam=red and /?testcam=blue. Create a code in one tab, join in the other, and capture a strip: each photo must contain both colors. Disconnect and verify the captured strip remains available. Test invalid/unknown codes and retrying with a fresh code. Synthetic camera mode is visibly labeled and only enabled by these query parameters.
 
 All project source was authored directly in GitHub's web editor; no local project checkout is required. To edit, use GitHub's web editor and commit to main. Vercel automatically builds and deploys the connected branch. The build requires the official source image URLs to remain available; if an artwork fetch fails, the build stops and the previous working production deployment remains live. Keep the project static: do not add server routes or image uploads unless you deliberately revisit the quota budget.
