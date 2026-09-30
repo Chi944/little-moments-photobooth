@@ -4,13 +4,13 @@ A personal photobooth: one camera together, or two devices connected directly. P
 
 ## Use
 
-Open the protected Vercel site and sign in with your authorized Vercel account. Choose a frame, layout and timer, then open your camera. Capture a three- or four-photo strip or a 2x2 grid. Retake individual shots, apply a filter, add a caption/date, and save a PNG or print. Try sample photos to explore frames without opening a camera.
+Open [Little Moments](https://little-moments-photobooth-chi944s-projects.vercel.app/) — no account or Vercel login is needed. Choose a frame, layout and timer, then open your camera. Capture a three- or four-photo strip or a 2x2 grid. Retake individual shots, apply a filter, add a caption/date, and save a PNG or print. Try sample photos to explore frames without opening a camera.
 
 Photos exist only in the page's memory. Refreshing, resetting or closing loses them. Only clicking Save PNG or Print creates a copy. The app uses no localStorage, IndexedDB, service worker, image uploads, audio or tracking. Camera access requires HTTPS and browser permission. Browser/hosting authentication may maintain its own cookies and browser caches; this app does not control those.
 
 ## Two devices
 
-1. Both people open the site with authorized access, open their cameras, and choose the two-device mode.
+1. Both people open the production app link, open their cameras, and choose the two-device mode.
 2. The host creates an invite code and sends it privately to the partner.
 3. The partner pastes the invite and selects Accept invite, then sends the generated reply back privately.
 4. The host pastes that reply and selects Connect with reply. Wait for both previews before capturing.
@@ -18,11 +18,11 @@ Photos exist only in the page's memory. Refreshing, resetting or closing loses t
 
 Codes contain temporary network/session information. Share only with your intended partner. No room server, database or polling is used. Cloudflare's free STUN endpoint helps browsers find a direct WebRTC route. No TURN relay is configured: some school, work, mobile or restrictive networks cannot connect. Try another network if connection fails. Remote video consumes the participants' internet bandwidth, not Vercel image/Blob storage. Switching apps temporarily pauses video; camera-off and closing the page end the connection.
 
-Vercel Authentication protects all deployments. A partner must have access approved through Vercel; protecting the app does not automatically authorize a second person. Do not disable production protection for remote mode. Vercel credentials must never be shared.
+The production app is public to anyone with its link. The GitHub repository stays private, and Vercel Standard Protection still protects preview and generated deployment URLs. Share the production app link above with your partner; neither person needs Vercel access. Photos remain in each browser tab and are never stored by the app on Vercel.
 
 ## Frames
 
-Ten frame designs: classic, noir, ribbon, gingham, stars, Cinnamoroll, CRYBABY, HACIPUPU, cats and hearts. Colors, layout, caption and filters are configurable. Cinnamoroll, CRYBABY and HACIPUPU now use detailed transparent official character images instead of hand-drawn approximations. The remaining decorative motifs are drawn with Canvas. This is a private personal project, unaffiliated with the character owners; no open redistribution license is claimed.
+Ten frame designs: classic, noir, ribbon, gingham, stars, Cinnamoroll, CRYBABY, HACIPUPU, cats and hearts. Colors, layout, caption and filters are configurable. Cinnamoroll, CRYBABY and HACIPUPU now use detailed transparent official character images instead of hand-drawn approximations. The remaining decorative motifs are drawn with Canvas. This is a personal project, unaffiliated with the character owners; no open redistribution license is claimed.
 
 Artwork credits: [Cinnamoroll © SANRIO](https://corporate.sanrio.co.jp/en/business-info/brands/cinnamoroll/), [CRYBABY © POP MART](https://www.popmart.com/us/products/2233/crybaby-wild-but-cutie-series---vinyl-plush-pendant-blind-box), and [HACIPUPU © POP MART](https://www.popmart.com/us/products/2780/hacipupu-gummy-bear-series-vinyl-plush-pendant-blind-box). The three PNG originals total 26,493 bytes. Build-time embedding adds about 35 KB to the HTML; there are no runtime requests to these sites.
 
@@ -30,7 +30,7 @@ Design research: current [Photomatic frames](https://www.photomatic.co.kr/NOTICE
 
 ## Hosting and free-tier budget
 
-Keep this repository private, the project on Vercel Hobby, and Vercel Authentication enabled for **All Deployments**. No paid plans, integrations or trials are needed. Production authentication is [free on every Vercel plan](https://vercel.com/changelog/protect-production-deployments-for-free-on-every-plan).
+Keep this repository private, the project on Vercel Hobby, and Vercel Authentication set to **Standard Protection**. Under Domains, keep `little-moments-photobooth-chi944s-projects.vercel.app` connected to **Production** so the shared app link opens without login. Standard Protection is [available on all plans](https://vercel.com/docs/deployment-protection) and keeps preview/generated deployment URLs protected. No paid plans, integrations or trials are needed. The app asks search engines not to index it, but this is not access control; anyone with the production link can use it.
 
 | Resource | App usage |
 | --- | --- |
