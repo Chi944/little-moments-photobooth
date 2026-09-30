@@ -1,2 +1,52 @@
-# little-moments-photobooth
-A personal, browser-only photobooth. No uploads, accounts database, dependencies or paid services.
+# Little Moments
+
+A personal photobooth: one camera together, or two devices connected directly. Plain HTML, CSS and JavaScript; no packages, build, backend or paid services.
+
+## Use
+
+Open the protected Vercel site and sign in with your authorized Vercel account. Choose a frame, layout and timer, then open your camera. Capture a three- or four-photo strip or a 2x2 grid. Retake individual shots, apply a filter, add a caption/date, and save a PNG or print. Try sample photos to explore frames without opening a camera.
+
+Photos exist only in the page's memory. Refreshing, resetting or closing loses them. Only clicking Save PNG or Print creates a copy. The app uses no localStorage, IndexedDB, service worker, image uploads, audio or tracking. Camera access requires HTTPS and browser permission. Browser/hosting authentication may maintain its own cookies and browser caches; this app does not control those.
+
+## Two devices
+
+1. Both people open the site with authorized access, open their cameras, and choose the two-device mode.
+2. The host creates an invite code and sends it privately to the partner.
+3. The partner pastes the invite and selects Accept invite, then sends the generated reply back privately.
+4. The host pastes that reply and selects Connect with reply. Wait for both previews before capturing.
+5. Each shot combines the two videos side by side. Either person can capture and export their own strip. Disconnect closes the connection.
+
+Codes contain temporary network/session information. Share only with your intended partner. No room server, database or polling is used. Cloudflare's free STUN endpoint helps browsers find a direct WebRTC route. No TURN relay is configured: some school, work, mobile or restrictive networks cannot connect. Try another network if connection fails. Remote video consumes the participants' internet bandwidth, not Vercel image/Blob storage. Switching apps temporarily pauses video; camera-off and closing the page end the connection.
+
+Vercel Authentication protects all deployments. A partner must have access approved through Vercel; protecting the app does not automatically authorize a second person. Do not disable production protection for remote mode. Vercel credentials must never be shared.
+
+## Frames
+
+Ten original frame drawings: classic, noir, ribbon, gingham, stars, Cinnamoroll, CRYBABY, HACIPUPU, cats and hearts. Colors, layout, caption and filters are configurable. Character-inspired artwork is original fan art for personal use, unaffiliated with Sanrio or POP MART; it is not licensed merchandise or copied artwork.
+
+Design research: current [Photomatic frames](https://www.photomatic.co.kr/NOTICE/?page=1), [Photomatic seasonal archive](https://www.photomatic.jp/photobooth/frame/), [Life4Cuts](https://life4cuts.co.uk/), [Sanrio Cinnamoroll](https://corporate.sanrio.co.jp/en/business-info/brands/cinnamoroll/), [POP MART CRYBABY](https://www.popmart.com/us/collection/38/crybaby), and [POP MART HACIPUPU](https://www.popmart.com/us/collection/hacipupu). Current catalog inspiration is not a measured popularity ranking.
+
+## Hosting and free-tier budget
+
+Keep this repository private, the project on Vercel Hobby, and Vercel Authentication enabled for **All Deployments**. No paid plans, integrations or trials are needed. Production authentication is [free on every Vercel plan](https://vercel.com/changelog/protect-production-deployments-for-free-on-every-plan).
+
+| Resource | App usage |
+| --- | --- |
+| Functions / CPU / function storage | No app functions |
+| Blob operations / Blob storage | None |
+| Image optimization / image storage | None |
+| Database / cron / analytics | None |
+| CDN requests and transfer | Small static page loads; captures and exports stay in-browser |
+| Deployment storage | Roughly 45 KB source per deployment, plus platform overhead |
+
+These choices minimize this project's usage; they cannot cap usage from other projects or promise zero CDN consumption. Keep deployments infrequent. Hobby pauses affected service when its included limits are exceeded instead of automatically buying paid usage. Account limits and other projects remain visible in Vercel's Usage dashboard.
+
+## Files and verification
+
+- index.html: complete app and original Canvas drawings.
+- vercel.json: zero-build deployment and privacy/security headers.
+- README.md: this guide.
+
+Open /?test=1 for the built-in regression checks. They exercise cropping, filter pixels, layout bounds, invite validation, sample artwork and PNG encoding without requesting a camera, writing a file or opening a peer connection. Real camera permissions, physical devices, printing and two different networks require live-device checks. A same-browser test cannot prove connectivity across every network.
+
+All project source was authored directly in GitHub's web editor; no local project checkout is required. To edit, use GitHub's web editor and commit to main. Vercel can deploy the connected branch. Keep the project static: do not add server routes or image uploads unless you deliberately revisit the quota budget.
