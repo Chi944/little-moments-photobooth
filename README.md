@@ -1,6 +1,6 @@
 # Little Moments
 
-A personal photobooth: one camera together, or two devices connected directly. Plain HTML, CSS and JavaScript; no packages, build, backend or paid services.
+A personal photobooth: one camera together, or two devices connected directly. Plain HTML, CSS and JavaScript; no packages, backend or paid services. A tiny native Node.js build bundles three character images into the static page.
 
 ## Use
 
@@ -22,7 +22,9 @@ Vercel Authentication protects all deployments. A partner must have access appro
 
 ## Frames
 
-Ten original frame drawings: classic, noir, ribbon, gingham, stars, Cinnamoroll, CRYBABY, HACIPUPU, cats and hearts. Colors, layout, caption and filters are configurable. Character-inspired artwork is original fan art for personal use, unaffiliated with Sanrio or POP MART; it is not licensed merchandise or copied artwork.
+Ten frame designs: classic, noir, ribbon, gingham, stars, Cinnamoroll, CRYBABY, HACIPUPU, cats and hearts. Colors, layout, caption and filters are configurable. Cinnamoroll, CRYBABY and HACIPUPU now use detailed transparent official character images instead of hand-drawn approximations. The remaining decorative motifs are drawn with Canvas. This is a private personal project, unaffiliated with the character owners; no open redistribution license is claimed.
+
+Artwork credits: [Cinnamoroll © SANRIO](https://corporate.sanrio.co.jp/en/business-info/brands/cinnamoroll/), [CRYBABY © POP MART](https://www.popmart.com/us/products/2233/crybaby-wild-but-cutie-series---vinyl-plush-pendant-blind-box), and [HACIPUPU © POP MART](https://www.popmart.com/us/products/2780/hacipupu-gummy-bear-series-vinyl-plush-pendant-blind-box). The three PNG originals total 26,493 bytes. Build-time embedding adds about 35 KB to the HTML; there are no runtime requests to these sites.
 
 Design research: current [Photomatic frames](https://www.photomatic.co.kr/NOTICE/?page=1), [Photomatic seasonal archive](https://www.photomatic.jp/photobooth/frame/), [Life4Cuts](https://life4cuts.co.uk/), [Sanrio Cinnamoroll](https://corporate.sanrio.co.jp/en/business-info/brands/cinnamoroll/), [POP MART CRYBABY](https://www.popmart.com/us/collection/38/crybaby), and [POP MART HACIPUPU](https://www.popmart.com/us/collection/hacipupu). Current catalog inspiration is not a measured popularity ranking.
 
@@ -37,16 +39,17 @@ Keep this repository private, the project on Vercel Hobby, and Vercel Authentica
 | Image optimization / image storage | None |
 | Database / cron / analytics | None |
 | CDN requests and transfer | Small static page loads; captures and exports stay in-browser |
-| Deployment storage | Roughly 45 KB source per deployment, plus platform overhead |
+| Deployment storage | Roughly 80 KB static HTML per deployment, plus platform overhead |
 
 These choices minimize this project's usage; they cannot cap usage from other projects or promise zero CDN consumption. Keep deployments infrequent. Hobby pauses affected service when its included limits are exceeded instead of automatically buying paid usage. Account limits and other projects remain visible in Vercel's Usage dashboard.
 
 ## Files and verification
 
-- index.html: complete app and original Canvas drawings.
-- vercel.json: zero-build deployment and privacy/security headers.
+- index.html: complete app, Canvas decorations, source artwork metadata and regression checks.
+- build.mjs: fetches the three allowlisted PNGs with timeout/type/size validation and embeds them into public/index.html. No packages or functions.
+- vercel.json: runs node build.mjs, publishes only public, and sets privacy/security headers.
 - README.md: this guide.
 
-Open /?test=1 for the built-in regression checks. They exercise cropping, filter pixels, layout bounds, invite validation, sample artwork and PNG encoding without requesting a camera, writing a file or opening a peer connection. Real camera permissions, physical devices, printing and two different networks require live-device checks. A same-browser test cannot prove connectivity across every network.
+Open /?test=1 for the built-in regression checks. They exercise cropping, filter pixels, layout bounds, invite validation, sample artwork, decoded character images, all nine character/layout combinations, failed-artwork handling and PNG encoding without requesting a camera, writing a file or opening a peer connection. Add &peer=1 to the self-check URL to exercise two synthetic video peers, manual SDP exchange, the countdown UI, capture of both video feeds and final PNG encoding without camera permission or file downloads. Real camera permissions, physical devices, printing and two different networks require live-device checks. A same-browser test cannot prove connectivity across every network.
 
-All project source was authored directly in GitHub's web editor; no local project checkout is required. To edit, use GitHub's web editor and commit to main. Vercel can deploy the connected branch. Keep the project static: do not add server routes or image uploads unless you deliberately revisit the quota budget.
+All project source was authored directly in GitHub's web editor; no local project checkout is required. To edit, use GitHub's web editor and commit to main. Vercel automatically builds and deploys the connected branch. The build requires the official source image URLs to remain available; if an artwork fetch fails, the build stops and the previous working production deployment remains live. Keep the project static: do not add server routes or image uploads unless you deliberately revisit the quota budget.
