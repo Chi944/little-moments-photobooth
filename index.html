@@ -75,7 +75,7 @@ function normalizeRoomCode(value){const code=value.trim().toUpperCase();if(!/^[0
 function validateDescription(data,type){if(!data||data.type!==type||typeof data.sdp!=='string'||!data.sdp.startsWith('v=0\r\n')||data.sdp.length>50000||!/\r\nm=video /.test(data.sdp)||/\r\nm=audio /.test(data.sdp))throw Error('Invalid video connection details. Create a new code.');return{type:data.type,sdp:data.sdp};}
 function peerMessage(text,error=false){$('peerStatus').textContent=text;$('peerStatus').classList.toggle('error',error);}
 const directIceServers=[{urls:['stun:stun.cloudflare.com:3478','stun:stun.l.google.com:19302']}];
-function sendSignal(r,type,payload){if(room!==r||r.socket?.readyState!==1)throw Error('Connection service disconnected. Create or join a new code.');r.socket.send(JSON.stringify({type,dst:r.remote,payload:{...payload,connectionId:r.connectionId}}));}
+function sendSignal(r,type,payload){if(room!==r||r.socket?.readyState!==1)throw Error('Connection service disconnected. Create or join a new code.');r.socket.send(JSON.stringify({type,dst:r.remote,payload:{...payload,type:'media',connectionId:r.connectionId}}));}
 function disconnectPeer(announce=true){
   pairTicket++;const oldRoom=room;room=null;
   if(oldRoom){clearInterval(oldRoom.heartbeat);clearTimeout(oldRoom.deadline);clearTimeout(oldRoom.openTimer);oldRoom.rejectOpen?.(Error('Connection cancelled.'));if(oldRoom.socket){oldRoom.socket.onclose=null;oldRoom.socket.onerror=null;oldRoom.socket.onmessage=null;oldRoom.socket.close();}}
